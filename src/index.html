@@ -3,10 +3,28 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./assets/bulma.css">
+    <link rel="stylesheet" href="./assets/index.css">
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <div class="has-text-centered">
+      <p class="title">Convey</p>
+      <p class="heading">Begin by uploading some files to the sounds folder.</p>
+
+      <button class="button is-text" id="openSoundsFolder">Open sounds folder</button>
+      <hr>
+    </div>
+    <p class="heading">0 files found</p>
+    <div class="container file-list has-text-centered">
+      <div class="file">
+        <p>test-sound.mp3</p>
+        <button class="button is-small">Play</button>
+        <button class="button is-small">Stop</button>
+        <button class="button is-small">Bind key</button>
+      </div>
+    </div>
+
+    <script src="./assets/jquery.js"></script>
+    <script src="./assets/render.js"></script>
   </body>
 </html>
