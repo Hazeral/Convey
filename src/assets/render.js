@@ -4,6 +4,7 @@ const soundsFolder = path.join(__dirname, 'sounds');
 let allSounds = [];
 const portAudio = require('naudiodon');
 let binds = [];
+const ofe = require('open-file-explorer');
 const jsonfile = require('jsonfile');
 const progressHtml = `<progress class="progress is-small is-dark" max="100">15%</progress>`;
 
@@ -61,6 +62,10 @@ async function refreshList() {
     $('.progressBox').append(progressHtml);
     $('.allBox').empty();
     await addSounds();
+}
+
+function openFolder() {
+    ofe(soundsFolder, err => console.log(err));
 }
 
 function play(id) {  

@@ -15,7 +15,11 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": ["soundboard", "linux", "discord"],
+  "keywords": [
+    "soundboard",
+    "linux",
+    "discord"
+  ],
   "author": {
     "name": "Muhammad Usman",
     "email": "usman.hxz@gmail.com"
@@ -51,7 +55,9 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "jsonfile": "^6.0.1",
-    "naudiodon": "^2.1.2"
+    "naudiodon": "^2.1.2",
+    "nw": "^0.45.1",
+    "open-file-explorer": "^1.0.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.50",
