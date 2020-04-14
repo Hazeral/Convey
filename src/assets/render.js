@@ -2,8 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const soundsFolder = path.join(__dirname, 'sounds');
 let allSounds = [];
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const portAudio = require('naudiodon');
+let binds = [];
+const jsonfile = require('jsonfile');
 const progressHtml = `<progress class="progress is-small is-dark" max="100">15%</progress>`;
 
 function gen_id() {
@@ -19,7 +20,7 @@ function gen_id() {
 async function getSounds() {
     allSounds = [];
     await fs.readdirSync(soundsFolder).forEach(file => {
-        if (file.split('.')[file.split('.').length - 1] != 'mp3' || file.split('.')[file.split('.').length - 1] != 'wav') {
+        if (file.split('.')[file.split('.').length - 1] == 'mp3' || file.split('.')[file.split('.').length - 1] == 'wav') {
             if (allSounds.some(f => f.name === file)) return;
             let file_id = gen_id();
             allSounds.push({ id: file_id, name: file });
@@ -31,29 +32,29 @@ async function getSounds() {
 async function addSounds() {
     await getSounds();
     $('.allBox').append(`
-        <div class="numDiv">
+        <div class="numDiv" style="display: none">
             <span class="heading">${allSounds.length} file(s) found</span>
             <a class="icon is-small refreshList" onclick="refreshList()"><i class="fas fa-redo" aria-hidden="true"></i></a>
         </div>
     `);
     if (allSounds.length == 0) return;
     $('.allBox').append(`
-        <div class="container file-list has-text-centered"></div>
+        <div class="container file-list has-text-centered" style="display: none"></div>
     `);
     allSounds.forEach(sound => {
         $('.file-list').append(`
             <div id="${sound.id}" class="file">
                 <div>
                     <span>${sound.name}</span>
-                    <a onclick="addFavourite('${sound.id}')" id="${sound.id}-fav" class="icon is-small setFavourite"><i class="far fa-star" aria-hidden="true"></i></a>  
                 </div>
                 <button onclick="play('${sound.id}')" id="${sound.id}-play" class="button is-small">Play</button>
-                <button onclick="stop('${sound.id}')" id="${sound.id}-stop" class="button is-small">Stop</button>
-                <button onclick="bind('${sound.id}')" id="${sound.id}-bind" class="button is-small">Bind key</button>
+                <button onclick="openModal('${sound.id}')" id="${sound.id}-bind" class="button is-small">Bind key</button>
             </div>
         `);
     });
-    $('.progressBox').empty();
+    $('.numDiv').fadeIn();
+    $('.file-list').fadeIn();
+    $('.progressBox').fadeOut();
 }
 
 async function refreshList() {
@@ -62,14 +63,112 @@ async function refreshList() {
     await addSounds();
 }
 
-function addFavourite(id) {}
+function play(id) {  
+    let ao = new portAudio.AudioIO({
+        outOptions: {
+          channelCount: 2,
+          sampleFormat: portAudio.SampleFormat16Bit,
+          sampleRate: 48000,
+          deviceId: -1,
+          closeOnError: true
+        }
+    });
 
-function play(id) {}
+    let name;
+    allSounds.map(s => {
+        if (s.id == id) {
+            name = s.name;
+        }
+    });
 
-function stop(id) {}
+    let rs = fs.createReadStream(path.join(soundsFolder, name));
+    rs.pipe(ao);
+    ao.start();
+}
 
-function bind(id) {}
+function openModal(id) {
+    let name;
+    allSounds.map(s => {
+        if (s.id == id) {
+            name = s.name;
+        }
+    });
+    $('.key-input').attr('value', '');
+    $('.bind-button').remove();
+    $('.m-title').text('Bind key for: ' + name);
+    $('.modal-c').append(`
+        <button class="button is-info bind-button" onclick="bind('${id}')">Bind</button>
+        <button class="button is-info bind-button" onclick="unBind('${id}')">Unbind</button>
+    `);
+    $('.modal').attr('class', 'modal is-active');
+}
+
+function hideModal() {
+    $('.modal').attr('class', 'modal');
+}
+
+function bind(id) {
+    let name;
+    allSounds.map(s => {
+        if (s.id == id) {
+            name = s.name;
+        }
+    });
+    if ($('.key-input').val() != undefined && $('.key-input').val() != '') {
+        let obj = {
+            bind: $('.key-input').val(),
+            name: name,
+            id: id
+        };
+        binds.push(obj);
+        jsonfile.writeFile(path.join(soundsFolder, '/binds.json'), binds, (err) => {
+            if (err) console.error(err)
+        });
+        hideModal();
+    }
+}
+
+function unBind(id) {
+    binds.map(b => {
+        if(b.id == id) {
+            binds.pop(b);
+        }
+    });
+    jsonfile.writeFile(path.join(soundsFolder, '/binds.json'), binds, (err) => {
+        if (err) console.error(err)
+    });
+    hideModal();
+}
+
+function checkBind(e) {
+    if ($('.modal').hasClass('is-active')) {
+        e.preventDefault();
+    }
+
+    let kp = [];
+    if (e.ctrlKey) {
+        kp.push('ctrl');
+    }
+    if (e.shiftKey) {
+        kp.push('shift');
+    }
+    if (e.altKey) {
+        kp.push('alt');
+    }
+    kp.push(e.key);
+    let pressed = kp.join('+');
+    $('.key-input').attr('value', pressed);
+    // if bind is set then play sound
+    binds.map(b => {
+        if (b.bind == pressed) {
+            console.log(b)
+            play(b.id);
+        }
+    });
+}
 
 $(() => {
+    document.addEventListener('keypress', e => checkBind(e));
+
     refreshList();
 });

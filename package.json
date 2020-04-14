@@ -2,8 +2,12 @@
   "name": "convey",
   "productName": "convey",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A soundboard designed to be used with VoIP applications.",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hazeral/Convey.git"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -11,7 +15,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [],
+  "keywords": ["soundboard", "linux", "discord"],
   "author": {
     "name": "Muhammad Usman",
     "email": "usman.hxz@gmail.com"
@@ -45,7 +49,9 @@
     }
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "jsonfile": "^6.0.1",
+    "naudiodon": "^2.1.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.50",

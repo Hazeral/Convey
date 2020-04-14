@@ -9,26 +9,37 @@
     <script src="https://kit.fontawesome.com/77018f3748.js" crossorigin="anonymous"></script>
   </head>
   <body>
+    
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="container has-text-centered">
+        <article class="message">
+          <div class="message-header">
+            <p class="m-title">Bind key for: </p>
+          </div>
+          <div class="message-body">
+            <div class="field">
+              <div class="control modal-c">
+                <input class="input is-info key-input" type="text" placeholder="Press a key" disabled>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="hideModal()"></button>
+  </div>
+
     <div class="has-text-centered">
       <p class="title">Convey</p>
-      <p class="heading">Begin by uploading some files to the sounds folder.</p>
+      <p class="heading">Begin by uploading .wav files to the sounds folder.</p>
 
       <button class="button is-text is-small" id="openSoundsFolder">Open sounds folder</button>
       <br></br>
     </div>
 
-    <div class="tabs is-centered">
-      <ul>
-        <li class="is-active" id="allImages"><a>
-          <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
-          <span>All files</span>
-        </a></li>
-        <li><a>
-          <span class="icon is-small" id="favouriteImages"><i class="far fa-star" aria-hidden="true"></i></span>
-          <span>Favourites</span>
-        </a></li>
-      </ul>
-    </div>
+    <hr>
 
     <div class="progressBox">
       

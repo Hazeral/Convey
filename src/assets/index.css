@@ -21,11 +21,6 @@ body {
 .fineprint {
   margin-top: 0.5rem;
 }
-
-.setFavourite {
-  float: right;
-}
-
 .refreshList {
   margin-left: 0.5rem;
 }
@@ -33,4 +28,9 @@ body {
 .numDiv {
   display: flex;
   margin-bottom: 0.5rem;
+}
+
+.bind-button {
+  margin-top: 0.5rem;
+  width: 100%;
 }
