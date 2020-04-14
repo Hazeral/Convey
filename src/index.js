@@ -1,6 +1,5 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 const path = require('path');
-const jsonfile = require('jsonfile');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -40,12 +39,20 @@ app.on('window-all-closed', () => {
 });
 
 
-app.whenReady().then(() => {
-  
-  globalShortcut.register('CommandOrControl+X', () => {
-    
-  })
-})
+// app.whenReady().then(() => {
+//   jsonfile.readFile(path.join(soundsFolder, '/binds.json'))
+//   .then(obj => {
+//     obj.forEach(s => {
+//       let k_ctrl = s.bind.replace('ctrl', 'CommandOrControl');
+//       let k_shift = k_ctrl.replace('shift', 'Shift');
+//       let k_alt = k_shift.replace('alt', 'Alt');
+//       globalShortcut.register(k_alt, () => {
+//         p.play(s.name);
+//       })
+//     });
+//   })
+//   .catch(error => console.error(error))
+// })
 
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the

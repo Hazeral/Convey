@@ -21,7 +21,7 @@ function gen_id() {
 async function getSounds() {
     allSounds = [];
     await fs.readdirSync(soundsFolder).forEach(file => {
-        if (file.split('.')[file.split('.').length - 1] == 'mp3' || file.split('.')[file.split('.').length - 1] == 'wav') {
+        if (file.split('.')[file.split('.').length - 1] == 'wav') {
             if (allSounds.some(f => f.name === file)) return;
             let file_id = gen_id();
             allSounds.push({ id: file_id, name: file });
@@ -46,7 +46,7 @@ async function addSounds() {
         $('.file-list').append(`
             <div id="${sound.id}" class="file">
                 <div>
-                    <span>${sound.name}</span>
+                    <span>${(sound.name.length > 12) ? sound.name.substring(0, 11) : sound.name}</span>
                 </div>
                 <button onclick="play('${sound.id}')" id="${sound.id}-play" class="button is-small">Play</button>
                 <button onclick="openModal('${sound.id}')" id="${sound.id}-bind" class="button is-small">Bind key</button>
@@ -125,6 +125,11 @@ function bind(id) {
             name: name,
             id: id
         };
+        binds.map(b => {
+            if(b.id == id) {
+                binds.pop(b);
+            }
+        });
         binds.push(obj);
         jsonfile.writeFile(path.join(soundsFolder, '/binds.json'), binds, (err) => {
             if (err) console.error(err)
