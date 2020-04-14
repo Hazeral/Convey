@@ -2,29 +2,48 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Convey</title>
     <link rel="stylesheet" href="./assets/bulma.css">
     <link rel="stylesheet" href="./assets/index.css">
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="https://kit.fontawesome.com/77018f3748.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="has-text-centered">
       <p class="title">Convey</p>
       <p class="heading">Begin by uploading some files to the sounds folder.</p>
 
-      <button class="button is-text" id="openSoundsFolder">Open sounds folder</button>
-      <hr>
+      <button class="button is-text is-small" id="openSoundsFolder">Open sounds folder</button>
+      <br></br>
     </div>
-    <p class="heading">0 files found</p>
-    <div class="container file-list has-text-centered">
-      <div class="file">
-        <p>test-sound.mp3</p>
-        <button class="button is-small">Play</button>
-        <button class="button is-small">Stop</button>
-        <button class="button is-small">Bind key</button>
-      </div>
+
+    <div class="tabs is-centered">
+      <ul>
+        <li class="is-active" id="allImages"><a>
+          <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+          <span>All files</span>
+        </a></li>
+        <li><a>
+          <span class="icon is-small" id="favouriteImages"><i class="far fa-star" aria-hidden="true"></i></span>
+          <span>Favourites</span>
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="progressBox">
+      
+    </div>
+
+    <div class="allBox">
+
+    </div>
+
+    <div class="has-text-centered">
+      <p class="heading fineprint">Created by <a href="https://github.com/Hazeral/Convey">Hazeral</a></p>
     </div>
 
     <script src="./assets/jquery.js"></script>
     <script src="./assets/render.js"></script>
+    <script>if (window.module) module = window.module;</script>
   </body>
 </html>

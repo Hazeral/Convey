@@ -1,5 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -29,6 +31,7 @@ const createWindow = () => {
 app.on('ready', createWindow);
 
 // Quit when all windows are closed.
+
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
