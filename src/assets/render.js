@@ -46,7 +46,7 @@ async function addSounds() {
         $('.file-list').append(`
             <div id="${sound.id}" class="file">
                 <div>
-                    <span>${(sound.name.length > 12) ? sound.name.substring(0, 11) : sound.name}</span>
+                    <span>${(sound.name.length > 12) ? (sound.name.substring(0, 9) + '...') : sound.name}</span>
                 </div>
                 <button onclick="play('${sound.id}')" id="${sound.id}-play" class="button is-small">Play</button>
                 <button onclick="openModal('${sound.id}')" id="${sound.id}-bind" class="button is-small">Bind key</button>
