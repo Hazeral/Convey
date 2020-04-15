@@ -1,6 +1,5 @@
 # Convey Soundboard
-
-## A simple soundboard created for Linux
+### A simple soundboard created for Linux
 
 Begin by running 
 
